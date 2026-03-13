@@ -1,74 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+    <link rel="stylesheet" href="assets/css/font.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Product list with cart</title>
-
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
-</head>
-<body>
-
-  Desserts
-
-  Waffle with Berries
-  Waffle
-  6.50
-  Add to Cart
-
-  Vanilla Bean Crème Brûlée
-  Crème Brûlée
-  7.00
-  Add to Cart
-
-  Macaron Mix of Five
-  Macaron
-  8.00
-  Add to Cart
-
-  Classic Tiramisu
-  Tiramisu
-  5.50
-  Add to Cart
-
-  Pistachio Baklava
-  Baklava
-  4.00
-  Add to Cart
-
-  Lemon Meringue Pie
-  Pie
-  5.00
-  Add to Cart
-
-  Red Velvet Cake
-  Cake
-  4.50
-  Add to Cart
-
-  Salted Caramel Brownie
-  Brownie
-  4.50
-  Add to Cart
-
-  Vanilla Panna Cotta
-  Panna Cotta
-  6.50
-  Add to Cart
-
-  Your Cart (<!-- Quantity -->)
-  Your added items will appear here
-
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
-</body>
+    <title>Frontend Mentor | Product list with cart</title>
+    <style>
+      .container-fluid {
+        width: 100%;
+        overflow: hidden;
+      }
+      .main {
+        width: 90%;
+        justify-self: center;
+        display: grid;
+        grid-template-columns: 70% 30%;
+      }
+      .products {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5%;
+      }
+      .products .product {
+        border-radius: 12px;
+        width: 30%;
+        overflow: hidden;
+      }
+      .products .product picture img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+      }
+      .products .product .picture-and-button {
+        display: grid;
+      }
+      .products .product .picture-and-button button {
+        padding: 10px;
+        transform: translateY(-20px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="main">
+        <div>
+          <h1 style="font-family: RedHat">Desserts</h1>
+          <div class="products">
+            <!-- JSON PRODUCTS -->
+            <script>
+              async function loadFoods() {
+                let isLoading = true;
+                const request = await fetch("./data.json");
+                const response = await request.json();
+                if (response) {
+                  isLoading = false;
+                  response.map((data) => {
+                    document.querySelector(".products").innerHTML += `
+                    <div class="product">
+                      <div class="picture-and-button">
+                        <picture>
+                          <source
+                            srcset="${data.image.mobile}"
+                            media="(max-width: 425px)"
+                          />
+                          <source
+                            srcset="${data.image.tablet}"
+                            media="(max-width: 768px)"
+                          />
+                          <source
+                            srcset="${data.image.desktop}"
+                            media="(max-width: 1400px)"
+                          />
+                        <img src="${data.image.thumbnail}" alt="" />
+                        </picture>
+                        <button>Add to cart</button>
+                      </div>
+                    </div>
+                    `;
+                  });
+                }
+              }
+              loadFoods();
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
